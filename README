@@ -1,7 +1,8 @@
-Important:
+SLS SES Bounce / Complaint Handler
+==================================
 
-The strange lib array in tsconfig.json is needed because of an issue in the TS
-GraphQL libraries: https://github.com/apollographql/graphql-subscriptions/issues/83
-
-Regardless if you use it or not, the build will fail without them!
-The lib configuration can and should be removed as soon as the issue has been fixed.
+1. Fork this repository.
+2. Customize the serverles.yml as needed.
+3. `sls deploy --stage {dev,staging,prod,etc...}`
+4. Subscribe bounce and complaint notifications for a given domain to the SNS topics created by this service.
+5. Enjoy! You're all done. You can decide how to access the dynamo blacklist table in your other services.
