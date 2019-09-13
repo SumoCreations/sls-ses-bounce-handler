@@ -1,0 +1,39 @@
+service: sls-ses-bounce-handler
+package:
+  individually: true
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-west-2
+  environment:
+    DYNAMODB_BLACKLIST_TABLE: ${self:service}-${opt:stage, self:provider.stage}-email-blacklist
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: 'arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:service}-${opt:stage, self:provider.stage}-*'
+
+functions:
+  bounce:
+    handler: src/handler.bounce
+    events:
+      - sns: bounce
+  complaint:
+    handler: src/handler.complaint
+    events:
+      - sns: complaint
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    packager: 'npm'
+    includeModules: true
+resources:
+  # DynamoDB
+  - ${file(resources/dynamo.yml)}
