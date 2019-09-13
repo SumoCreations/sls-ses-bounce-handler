@@ -36,13 +36,16 @@ interface IComplaintMessage extends IMessage {
   complaint: IComplaint
 }
 
+const getEmails = (s: string) => s.match(/\S+[a-z0-9]@[a-z0-9\.]+/img)
+
 export const bounce: SNSHandler = async (event, _context) => {
   await Promise.all(event.Records
     .map(r => JSON.parse(r.Sns.Message) as IBounceMessage)
     .map(async ({ bounce }) => {
       const blacklistType = [BlacklistType.Bounce, bounce.bounceType, bounce.bounceSubType]
       await Promise.all(bounce.bouncedRecipients.map(async r => {
-        await blacklistEmail(r.emailAddress, [...blacklistType, r.status, r.action])
+        const email = (getEmails(r.emailAddress) || [])[0]
+        await blacklistEmail(email, [...blacklistType, r.status, r.action])
       }))
     }))
 }
@@ -53,7 +56,8 @@ export const complaint: SNSHandler = async (event, _context) => {
     .map(async ({ complaint }) => {
       const blacklistType = [BlacklistType.Complaint, complaint.complaintFeedbackType]
       await Promise.all(complaint.complainedRecipients.map(async r => {
-        await blacklistEmail(r.emailAddress, [...blacklistType])
+        const email = (getEmails(r.emailAddress) || [])[0]
+        await blacklistEmail(email, [...blacklistType])
       }))
     }))
 }
