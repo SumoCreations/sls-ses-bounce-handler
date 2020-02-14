@@ -14,7 +14,7 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
     "@types/aws-lambda": "^8.10.31",
-    "aws-lambda": "^0.1.2",
+    "aws-lambda": "^1.0.5",
     "aws-sdk": "^2.528.0",
     "babel-loader": "^8.0.6",
     "cache-loader": "^4.1.0",
