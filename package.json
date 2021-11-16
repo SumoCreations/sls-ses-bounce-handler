@@ -15,7 +15,7 @@
     "@babel/preset-typescript": "^7.3.3",
     "@types/aws-lambda": "^8.10.31",
     "aws-lambda": "^0.1.2",
-    "aws-sdk": "^2.528.0",
+    "aws-sdk": "^2.814.0",
     "babel-loader": "^8.0.6",
     "cache-loader": "^4.1.0",
     "fork-ts-checker-webpack-plugin": "^1.4.3",
