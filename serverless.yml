@@ -7,7 +7,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs16.x
   environment:
     DYNAMODB_BLACKLIST_TABLE: ${self:service}-${opt:stage, self:provider.stage}-email-blacklist
   iamRoleStatements:
