@@ -1,6 +1,7 @@
-import { SNSHandler } from 'aws-lambda'
+import { APIGatewayProxyHandler, SNSHandler } from 'aws-lambda'
 import { BlacklistType, blacklistEmail } from './blacklistEmail'
 import { logDelivery } from './logDelivery'
+import { verifyEmail } from './verifyEmail'
 
 interface IRecipient {
   emailAddress: string
@@ -105,4 +106,18 @@ export const delivery: SNSHandler = async (event, _context) => {
       )
     })
   )
+}
+
+export const verify: APIGatewayProxyHandler = async (event, _context) => {
+  const email = event?.queryStringParameters?.email
+  if (!email || !(await verifyEmail(email))) {
+    return {
+      statusCode: 400,
+      body: 'invalid email',
+    }
+  }
+  return {
+    statusCode: 200,
+    body: 'ok',
+  }
 }

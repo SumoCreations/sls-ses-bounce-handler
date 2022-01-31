@@ -33,6 +33,13 @@ functions:
     handler: src/handler.delivery
     events:
       - sns: delivery
+  verify:
+    handler: src/handler.verify
+    events:
+      - http:
+          path: verify
+          method: get
+          cors: true
 custom:
   webpack:
     webpackConfig: 'webpack.config.js'

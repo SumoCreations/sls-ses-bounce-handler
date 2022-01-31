@@ -27,6 +27,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "@types/node": "^12.7.5"
+    "@types/node": "^12.7.5",
+    "email-validator": "^2.0.4"
   }
 }
