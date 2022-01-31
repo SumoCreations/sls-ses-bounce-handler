@@ -7,9 +7,10 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs14.x
   environment:
-    DYNAMODB_BLACKLIST_TABLE: ${self:service}-${opt:stage, self:provider.stage}-email-blacklist
+    DYNAMODB_BLACKLIST_TABLE: ${self:service}-${opt:stage, self:provider.stage}-blacklist
+    DYNAMODB_DELIVERIES_TABLE: ${self:service}-${opt:stage, self:provider.stage}-deliveries
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -28,6 +29,10 @@ functions:
     handler: src/handler.complaint
     events:
       - sns: complaint
+  delivery:
+    handler: src/handler.delivery
+    events:
+      - sns: delivery
 custom:
   webpack:
     webpackConfig: 'webpack.config.js'

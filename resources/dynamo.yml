@@ -1,8 +1,25 @@
 Resources:
-  AccountsTable:
+  BlackListTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:
       TableName: ${self:provider.environment.DYNAMODB_BLACKLIST_TABLE}
+      AttributeDefinitions:
+        - AttributeName: partitionKey
+          AttributeType: S
+        - AttributeName: sortKey
+          AttributeType: S
+      KeySchema:
+        - AttributeName: partitionKey
+          KeyType: HASH
+        - AttributeName: sortKey
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  DeliveryLogsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: ${self:provider.environment.DYNAMODB_DELIVERIES_TABLE}
       AttributeDefinitions:
         - AttributeName: partitionKey
           AttributeType: S
